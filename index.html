@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eco-marathon Countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --ground: #f2eddc;
+    --card: #f8f5ec;
+    --card-edge: #c9c3b4;
+    --maroon: #8a1f1f;
+    --gold: #d9ab1c;
+    --gold-glow: rgba(242, 196, 40, 0.55);
+    --muted: #8f7a6a;
+  }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--ground);
+    color: var(--maroon);
+    font-family: "Rajdhani", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+    display: grid;
+    place-items: center;
+    padding-inline: 16px;
+    padding-block: 32px;
+    box-sizing: border-box;
+  }
+  main {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    text-align: center;
+  }
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 6vw, 2.4rem);
+    line-height: 1.25;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .card {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--card);
+    border: 2px solid var(--card-edge);
+    border-radius: 12px;
+    box-shadow: 0 10px 22px rgba(90, 70, 40, 0.18);
+    padding: 26px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .clock {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .num, .sep {
+    font-weight: 700;
+    font-size: clamp(2.4rem, 11vw, 4.2rem);
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold-glow), 0 0 22px var(--gold-glow);
+  }
+  .sep { opacity: 0.85; }
+  .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .date {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .date strong { color: var(--maroon); font-weight: 600; }
+  .done .num, .done .sep { animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.55; } }
+  @media (prefers-reduced-motion: reduce) {
+    .done .num, .done .sep { animation: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Shell Eco-marathon Countdown</h1>
+  <section class="card" aria-live="polite">
+    <p class="eyebrow" id="status">Competition starts in:</p>
+    <div class="clock" id="clock">
+      <div class="unit"><span class="num" id="d">255</span><span class="label">Days</span></div>
+      <span class="sep">:</span>
+      <div class="unit"><span class="num" id="h">00</span><span class="label">Hrs</span></div>
+      <span class="sep">:</span>
+      <div class="unit"><span class="num" id="m">00</span><span class="label">Min</span></div>
+      <span class="sep">:</span>
+      <div class="unit"><span class="num" id="s">00</span><span class="label">Sec</span></div>
+    </div>
+  </section>
+  <p class="date"><strong>Tuesday 8 June 2027</strong> · 00:00 UK time</p>
+</main>
+
+<script>
+  // Midnight at the start of 8 June 2027, British Summer Time (UTC+1)
+  const TARGET = new Date("2027-06-08T00:00:00+01:00").getTime();
+  const els = {
+    d: document.getElementById("d"),
+    h: document.getElementById("h"),
+    m: document.getElementById("m"),
+    s: document.getElementById("s"),
+  };
+  const pad = n => String(n).padStart(2, "0");
+
+  function tick() {
+    let diff = Math.max(0, TARGET - Date.now());
+    const total = Math.floor(diff / 1000);
+    const d = Math.floor(total / 86400);
+    const h = Math.floor((total % 86400) / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    els.d.textContent = pad(d);
+    els.h.textContent = pad(h);
+    els.m.textContent = pad(m);
+    els.s.textContent = pad(s);
+    if (total === 0) {
+      document.getElementById("status").textContent = "The competition has started!";
+      document.getElementById("clock").classList.add("done");
+      return;
+    }
+    setTimeout(tick, 1000 - (Date.now() % 1000));
+  }
+  tick();
+</script>
+
+</body>
+</html>
