@@ -41,7 +41,7 @@
   h1 {
     margin: 0;
     font-weight: 600;
-    font-size: clamp(1.7rem, 6vw, 2.4rem);
+    font-size: clamp(1.15rem, 4vw, 1.5rem);
     line-height: 1.25;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -95,14 +95,6 @@
     text-transform: uppercase;
     color: var(--muted);
   }
-  .date {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-  }
-  .date strong { color: var(--maroon); font-weight: 600; }
   .done .num, .done .sep { animation: pulse 1.6s ease-in-out infinite; }
   @keyframes pulse { 50% { opacity: 0.55; } }
   @media (prefers-reduced-motion: reduce) {
@@ -125,7 +117,6 @@
       <div class="unit"><span class="num" id="s">00</span><span class="label">Sec</span></div>
     </div>
   </section>
-  <p class="date"><strong>Tuesday 8 June 2027</strong> · 00:00 UK time</p>
 </main>
 
 <script>
